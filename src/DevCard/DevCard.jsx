@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
@@ -18,22 +18,43 @@ const useStyles = makeStyles({
   },
 });
 
-export default function DevCard() {
+function DevCard(props) {
+
   const classes = useStyles();
+  const [developer, detDeveloper] = useState();
+  const [developerImg, detDeveloperImg] = useState();
+
+  async function callAPI() {
+    try {
+      const userUrl = "https://jsonplaceholder.typicode.com/users/" + props.id;
+      const resUser = await fetch(userUrl);
+      const data = await resUser.json();
+      detDeveloper(data);
+
+    } catch (err) {
+      console.log(err.message);
+    }
+  }
+
+  useEffect(() => {
+    callAPI();
+  }, []);
+
 
   return (
     <Card className={classes.root}>
       <CardActionArea>
         <CardMedia
           className={classes.media}
-          image="/static/images/cards/contemplative-reptile.jpg"
+          image={"https://robohash.org/" + props.id}
           title="Dev Name"
         />
         <CardContent></CardContent>
       </CardActionArea>
       <CardActions>
         <Typography variant="body2" color="textSecondary" component="p">
-          Developer description Developer description Developer description Developer description Developer description Developer description
+          Name: {developer ? developer.name : ""} 
+          Email: {developer ? developer.email : ""}
         </Typography>
         <IconButton aria-label="settings">
           <MoreVertIcon />
@@ -42,3 +63,6 @@ export default function DevCard() {
     </Card>
   );
 }
+
+
+export default DevCard;
