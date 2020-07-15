@@ -31,8 +31,8 @@ export default function ButtonAppBar() {
         >
           <ToysIcon />
         </IconButton>
+        <Link color="inherit">Home</Link>
         <Link color="inherit">Projects</Link>
-        <Link color="inherit">About</Link>
         <Button color="inherit">Login</Button>
       </Toolbar>
     </AppBar>

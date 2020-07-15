@@ -14,19 +14,10 @@ const Content = (props) => {
       {props.developers.map((item) => {
         return (
           <Grid item xs={12} sm={6} md={4}>
-            <DevCard id={item.id}/>
+            <DevCard id={item.id} component="form"/>
           </Grid>
         );
       })}
-      {/* <Grid item xs={12} sm={6} md={4}>
-        <DevCard />
-      </Grid>
-      <Grid item xs={12} sm={6} md={4}>
-        <DevCard />
-      </Grid>
-      <Grid item xs={12} sm={6} md={4}>
-        <DevCard />
-      </Grid> */}
     </Grid>
   );
 };
