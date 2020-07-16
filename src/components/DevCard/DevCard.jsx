@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
+import DialogDelete from '../DialogDelete/DialogDelete'
 import MoreVertIcon from "@material-ui/icons/MoreVert";
+import { Link } from "react-router-dom";
 import {
   Card,
   CardActionArea,
@@ -12,26 +14,24 @@ import {
   Typography,
   IconButton,
   Grid,
-  Dialog,
-  DialogTitle,
-  Button,
 } from "@material-ui/core";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   root: {
     // maxWidth: 345,
   },
   media: {
     height: 200,
   },
-});
+}));
 
 function DevCard(props) {
   const classes = useStyles();
-  const [developer, setDeveloper] = useState();
   const [anchorEl, setAnchorEl] = useState(null);
   const [dialogOpened, setDialogVisibility] = useState(false);
   const [menuOpened, setMenuVisibility] = useState(false);
+  const { info } = props;
+
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
@@ -51,56 +51,28 @@ function DevCard(props) {
     setDialogVisibility(false);
   };
 
-  function DeleteDialog() {
-    return (
-      <Dialog
-        onClose={handleDialogClose}
-        aria-labelledby="simple-dialog-title"
-        open={dialogOpened}
-      >
-        <DialogTitle id="simple-dialog-title">Are you sure?</DialogTitle>
-        <Button variant="contained" color="secondary">
-          OK
-        </Button>
-      </Dialog>
-    );
-  }
-
-  async function callAPI() {
-    try {
-      const userUrl = "https://jsonplaceholder.typicode.com/users/" + props.id;
-      const resUser = await fetch(userUrl);
-      const data = await resUser.json();
-      setDeveloper(data);
-    } catch (err) {
-      console.log(err.message);
-    }
-  }
-
-  useEffect(() => {
-    callAPI();
-  }, []);
-
   return (
     <Card className={classes.root}>
       <CardActionArea>
-        <CardMedia
-          className={classes.media}
-          image={"https://robohash.org/" + props.id}
-          title="Dev Name"
-        />
+        <Link to={`devs/${info.id}`}>
+          <CardMedia
+            className={classes.media}
+            image={"https://robohash.org/" + info.id}
+            title="Dev Name"
+          />
+        </Link>
         <CardContent></CardContent>
       </CardActionArea>
       <CardActions>
         <Grid container direction="column">
           <Typography variant="body2" color="textSecondary" component="p">
-            Name: {developer ? developer.name.trim() : ""}
+            Name: {info.name}
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
-            Email: {developer ? developer.email : ""}
+            Email:{info.email} 
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
-            Phone: {developer ? developer.phone : ""}
+            Phone: {info.phone}
           </Typography>
         </Grid>
 
@@ -133,7 +105,8 @@ function DevCard(props) {
               Delete
             </MenuItem>
           </Menu>
-          <DeleteDialog open={dialogOpened} onClose={handleDialogClose} />
+          <DialogDelete open={dialogOpened} onClose={handleDialogClose} />
+
         </div>
       </CardActions>
     </Card>

@@ -4,8 +4,9 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
-import { Link } from "@material-ui/core";
+import { Link as MaUILink } from "@material-ui/core";
 import ToysIcon from "@material-ui/icons/Toys";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -31,8 +32,12 @@ export default function ButtonAppBar() {
         >
           <ToysIcon />
         </IconButton>
-        <Link color="inherit">Home</Link>
-        <Link color="inherit">Projects</Link>
+        <Link to="/">
+          <MaUILink color="inherit">Home</MaUILink>
+        </Link>
+        <Link to="/projects">
+          <MaUILink color="inherit">Projects</MaUILink>
+        </Link>
         <Button color="inherit">Login</Button>
       </Toolbar>
     </AppBar>

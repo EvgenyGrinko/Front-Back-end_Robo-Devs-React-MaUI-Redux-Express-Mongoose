@@ -4,9 +4,12 @@ import {
   ADD_DEVELOPER_STARTED,
   ADD_DEVELOPER_SUCCESS,
   ADD_DEVELOPER_FAILURE,
-  GET_DEVELOPER_STARTED,
-  GET_DEVELOPER_SUCCESS,
-  GET_DEVELOPER_FAILURE,
+  GET_ALL_DEVELOPERS_STARTED,
+  GET_ALL_DEVELOPERS_SUCCESS,
+  GET_ALL_DEVELOPERS_FAILURE,
+  GET_ONE_DEVELOPER_STARTED,
+  GET_ONE_DEVELOPER_SUCCESS,
+  GET_ONE_DEVELOPER_FAILURE,
 } from "../constants/acion-types";
 
 const initialState = {
@@ -14,14 +17,15 @@ const initialState = {
   loading: false,
   error: null,
   developers: [],
+  oneDeveloper: {},
 };
 
-function rootReducer(state = initialState, action) {
-  switch (action.type) {
+function rootReducer(state = initialState, { type, payload }) {
+  switch (type) {
     case SET_SEARCHED_WORD:
-      return { ...state, searchedWord: action.payload };
-    case GET_ALL_DEVELOPERS:
-      return { ...state, developers: action.payload };
+      return { ...state, searchedWord: payload };
+    // case GET_ALL_DEVELOPERS:
+    //   return { ...state, developers: action.payload };
     case ADD_DEVELOPER_STARTED:
       return { ...state, loading: true };
     case ADD_DEVELOPER_SUCCESS:
@@ -29,23 +33,22 @@ function rootReducer(state = initialState, action) {
         ...state,
         loading: false,
         error: null,
-        developers: [...state.developers, action.payload],
+        developers: [...state.developers, payload],
       };
     case ADD_DEVELOPER_FAILURE:
-      return { ...state, loading: false, error: action.payload.error };
-
-    case GET_DEVELOPER_STARTED:
+      return { ...state, loading: false, error: payload };
+    case GET_ALL_DEVELOPERS_STARTED:
       return { ...state, loading: true };
-    case GET_DEVELOPER_SUCCESS:
-      return {
-        ...state,
-        loading: false,
-        error: null,
-        developers: [action.payload],
-      };
-    case GET_DEVELOPER_FAILURE:
-      return { ...state, loading: false, error: action.payload.error };
-
+    case GET_ALL_DEVELOPERS_SUCCESS:
+      return { ...state, loading: false, error: null, developers: payload };
+    case GET_ALL_DEVELOPERS_FAILURE:
+      return { ...state, loading: false, error: payload.error };
+    case GET_ONE_DEVELOPER_STARTED:
+      return { ...state, loading: true };
+    case GET_ONE_DEVELOPER_SUCCESS:
+      return { ...state, loading: false, error: null, oneDeveloper: payload };
+    case GET_ONE_DEVELOPER_FAILURE:
+      return { ...state, loading: false, error: payload };
     default:
       return state;
   }

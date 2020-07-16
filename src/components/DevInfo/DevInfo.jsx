@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Avatar, Grid, Paper, Typography, Container } from "@material-ui/core";
+import { getOneDeveloper } from "../../redux/actions/index";
+import { connect } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   avatar: {
@@ -16,43 +18,37 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const DevInfo = (props) => {
-  const classes = useStyles();
-  const [developer, setDeveloper] = useState();
+  
+  const id = Number(props.match.params.id);
 
-  async function callAPI() {
-    try {
-      const userUrl = "https://jsonplaceholder.typicode.com/users/" + props.id;
-      const resUser = await fetch(userUrl);
-      const data = await resUser.json();
-      setDeveloper(data);
-    } catch (err) {
-      console.log(err.message);
-    }
-  }
-  console.log(developer);
   useEffect(() => {
-    callAPI();
+    props.getOneDeveloper(id);
   }, []);
 
+  const classes = useStyles();
+  
   return (
     <Grid container>
       <Avatar
         className={classes.avatar}
-        src={"https://robohash.org/" + props.id}
+        src={"https://robohash.org/" + id}
       />
       <Paper elevation={3} className={classes.paper}>
         <Container>
-          <Typography>email: {developer ? developer.email : ""}</Typography>
-          <Typography>name: {developer ? developer.name : ""}</Typography>
-          <Typography>phone: {developer ? developer.phone : ""}</Typography>
-          <Typography>
-            username: {developer ? developer.username : ""}
-          </Typography>
-          <Typography>website: {developer ? developer.website : ""}</Typography>
+          <Typography>email: {props.oneDeveloper.email}</Typography>
+          <Typography>name: {props.oneDeveloper.name}</Typography>
+          <Typography>phone: {props.oneDeveloper.phone}</Typography>
+          <Typography>username: {props.oneDeveloper.username}</Typography>
+          <Typography>website: {props.oneDeveloper.website}</Typography>
         </Container>
       </Paper>
     </Grid>
   );
 };
 
-export default DevInfo;
+const mapDispatchToProps = { getOneDeveloper };
+function mapStateToProps(state) {
+  return { oneDeveloper: state.oneDeveloper };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(DevInfo);
