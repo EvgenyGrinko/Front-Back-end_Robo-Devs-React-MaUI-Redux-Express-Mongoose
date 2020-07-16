@@ -8,12 +8,11 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     backgroundColor: theme.palette.primary.light,
     "&:hover": { backgroundColor: "#7457d5" },
-    margin: theme.spacing(2, 0, 2, 0),
-    borderRadius: "0.5rem"
+    margin: theme.spacing(2, 2, 2, 0),
+    borderRadius: "0.5rem",
   },
   searchIcon: {
     padding: theme.spacing(0.5, 2),
-    // height: "100%",
     position: "absolute",
     pointerEvents: "none",
     display: "flex",
@@ -23,19 +22,16 @@ const useStyles = makeStyles((theme) => ({
   inputInput: {
     padding: theme.spacing(1, 1, 1, 1),
     justifyContent: "flex-start",
-    // vertical padding + font size from searchIcon
-    // paddingLeft: `calc(${theme.spacing(4)}px)`,
-    // transition: theme.transitions.create("width"),
     width: "100%",
-    // [theme.breakpoints.up("md")]: {
-    //   width: "20ch",
-    // },
     color: theme.palette.primary.contrastText,
   },
 }));
 
 const SearchBar = () => {
   const classes = useStyles();
+
+  function handleChange(event) {}
+
   return (
     <div className={classes.search}>
       <div className={classes.searchIcon}>
@@ -47,6 +43,7 @@ const SearchBar = () => {
           root: classes.inputRoot,
           input: classes.inputInput,
         }}
+        onChange={handleChange}
         inputProps={{ "aria-label": "search" }}
       />
     </div>

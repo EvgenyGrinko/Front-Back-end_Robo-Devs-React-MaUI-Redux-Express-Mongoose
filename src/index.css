@@ -131,3 +131,7 @@ a {
   color: inherit;
   text-transform: uppercase;
 }
+
+* {
+  box-sizing: border-box;
+}

@@ -5,6 +5,7 @@ import { Grid } from "@material-ui/core";
 import Developers from "../components/Developers/Developers";
 import DevInfo from "../components/DevInfo/DevInfo";
 import Projects from "../components/Projects/Projects";
+import AddNewDeveloperForm from "../components/AddNewDeveloperForm/AddNewDeveloperForm";
 import { Switch, Route } from "react-router-dom";
 
 function App() {
@@ -21,12 +22,11 @@ function App() {
             <Route exact path="/">
               <Developers />
             </Route>
-            <Route path="/projects">
-              <Projects />
-            </Route>
-            <Route exact path="/devs/:id" component={DevInfo}/>
+            <Route path="/projects" component={Projects} />
+            <Route exact path="/devs/:id" component={DevInfo} />
+            <Route exact path="/addDev" component={AddNewDeveloperForm} />
           </Switch>
-          
+
           <Grid item xs={0} sm={2} />
         </Grid>
       </Grid>
