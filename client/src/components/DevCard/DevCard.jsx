@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import DialogDelete from '../DialogDelete/DialogDelete'
+import DialogDelete from "../DialogDelete/DialogDelete";
+import DialogSuccess from "../DialogSuccess/DialogSuccess";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import { Link } from "react-router-dom";
+import { deleteOneDeveloper } from "../../redux/actions/index";
+import { connect } from "react-redux";
 import {
   Card,
   CardActionArea,
@@ -28,10 +31,10 @@ const useStyles = makeStyles((theme) => ({
 function DevCard(props) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
-  const [dialogOpened, setDialogVisibility] = useState(false);
+  const [deleteDialogOpened, setDeleteDialogVisibility] = useState(false);
+  const [successDialogOpened, setSuccessDialogVisibility] = useState(false);
   const [menuOpened, setMenuVisibility] = useState(false);
   const { info } = props;
-
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
@@ -39,7 +42,7 @@ function DevCard(props) {
   };
 
   const handleDeleteClick = () => {
-    setDialogVisibility(true);
+    setDeleteDialogVisibility(true);
     setMenuVisibility(false);
   };
   const handleMenuClose = () => {
@@ -47,17 +50,26 @@ function DevCard(props) {
     setMenuVisibility(false);
   };
 
-  const handleDialogClose = () => {
-    setDialogVisibility(false);
+  const handleDeleteDialogClose = () => {
+    setDeleteDialogVisibility(false);
+  };
+
+  const handleDeleteDeveloper = () => {
+    props.deleteOneDeveloper(info._id);
+    setDeleteDialogVisibility(false);
+    setSuccessDialogVisibility(true);
+  };
+  const handleSuccessDialogClose = () => {
+    setSuccessDialogVisibility(false);
   };
 
   return (
     <Card className={classes.root}>
       <CardActionArea>
-        <Link to={`devs/${info.id}`}>
+        <Link to={`api/developers/${info._id}`}>
           <CardMedia
             className={classes.media}
-            image={"https://robohash.org/" + info.id}
+            image={"https://robohash.org/" + info._id}
             title="Dev Name"
           />
         </Link>
@@ -69,7 +81,7 @@ function DevCard(props) {
             Name: {info.name}
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
-            Email:{info.email} 
+            Email:{info.email}
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
             Phone: {info.phone}
@@ -105,12 +117,21 @@ function DevCard(props) {
               Delete
             </MenuItem>
           </Menu>
-          <DialogDelete open={dialogOpened} onClose={handleDialogClose} />
-
+          <DialogDelete
+            open={deleteDialogOpened}
+            onClose={handleDeleteDialogClose}
+            onDelete={handleDeleteDeveloper}
+          />
+          <DialogSuccess
+            open={successDialogOpened}
+            onClose={handleSuccessDialogClose}
+            title={"You've just deleted a developer"}
+          />
         </div>
       </CardActions>
     </Card>
   );
 }
+const mapDispatchToProps = { deleteOneDeveloper };
 
-export default DevCard;
+export default connect(null, mapDispatchToProps)(DevCard);

@@ -1,10 +1,6 @@
-import React from 'react';
+import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import {
-  Dialog,
-  DialogTitle,
-  Button,
-} from "@material-ui/core";
+import { Dialog, DialogTitle, Button } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   dialogButtonContainer: {
@@ -16,30 +12,42 @@ const useStyles = makeStyles((theme) => ({
     "&:first-child": { marginRight: theme.spacing(1) },
   },
   dialogHeader: {
-    textAlign: "center"
-  }
-}))
+    textAlign: "center",
+  },
+}));
 
 function DialogDelete(props) {
-  
   const classes = useStyles();
 
   return (
     <Dialog
-      onClose={()=>{props.onClose()}}
+      onClose={() => {
+        props.onClose();
+      }}
       aria-labelledby="simple-dialog-title"
       open={props.open}
     >
-      <DialogTitle id="simple-dialog-title" className={classes.dialogHeader}>Are you sure?</DialogTitle>
+      <DialogTitle id="simple-dialog-title" className={classes.dialogHeader}>
+        Are you sure?
+      </DialogTitle>
       <div className={classes.dialogButtonContainer}>
         <Button
           className={classes.dialogButton}
           variant="contained"
           color="secondary"
+          onClick={() => {
+            props.onDelete();
+          }}
         >
           Delete
         </Button>
-        <Button className={classes.dialogButton} variant="contained">
+        <Button
+          className={classes.dialogButton}
+          variant="contained"
+          onClick={() => {
+            props.onClose();
+          }}
+        >
           Cancel
         </Button>
       </div>
@@ -47,4 +55,4 @@ function DialogDelete(props) {
   );
 }
 
-export default DialogDelete
+export default DialogDelete;

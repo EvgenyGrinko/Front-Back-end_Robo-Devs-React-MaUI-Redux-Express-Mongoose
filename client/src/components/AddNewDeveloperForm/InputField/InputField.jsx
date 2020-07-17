@@ -24,6 +24,7 @@ function InputField(props) {
         id={props.name.toLowerCase()}
         name={props.name}
         onChange={handleChange}
+        value={props.value}
       />
     </div>
   );

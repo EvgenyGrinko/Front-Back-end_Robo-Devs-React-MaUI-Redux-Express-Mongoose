@@ -23,8 +23,8 @@ function App() {
               <Developers />
             </Route>
             <Route path="/projects" component={Projects} />
-            <Route exact path="/devs/:id" component={DevInfo} />
-            <Route exact path="/addDev" component={AddNewDeveloperForm} />
+            <Route exact path="/api/developers/:id" component={DevInfo} />
+            <Route exact path="/api/add" component={AddNewDeveloperForm} />
           </Switch>
 
           <Grid item xs={0} sm={2} />

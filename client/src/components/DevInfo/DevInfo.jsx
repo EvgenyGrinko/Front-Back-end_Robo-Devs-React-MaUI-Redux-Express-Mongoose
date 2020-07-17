@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Avatar,
-  Grid,
   Paper,
   Typography,
   CircularProgress,
@@ -36,16 +35,19 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const DevInfo = (props) => {
-  const id = Number(props.match.params.id);
+  const id = props.match.params.id;
+  const {
+    oneDeveloper: { developer, success },
+  } = props;
 
   useEffect(() => {
     props.getOneDeveloper(id);
   }, []);
   const classes = useStyles();
-
+  console.log(props);
   return (
     <div>
-      {props.oneDeveloper.name ? (
+      {success ? (
         <div className={classes.content}>
           <Avatar
             className={classes.avatar}
@@ -56,10 +58,10 @@ const DevInfo = (props) => {
               <Typography component="div">
                 email: {props.oneDeveloper.email}
               </Typography>
-              <Typography>name: {props.oneDeveloper.name}</Typography>
-              <Typography>phone: {props.oneDeveloper.phone}</Typography>
-              <Typography>username: {props.oneDeveloper.username}</Typography>
-              <Typography>website: {props.oneDeveloper.website}</Typography>
+              <Typography>name: {developer.name}</Typography>
+              <Typography>phone: {developer.phone}</Typography>
+              <Typography>username: {developer.username}</Typography>
+              <Typography>website: {developer.website}</Typography>
             </Container>
           </Paper>
         </div>

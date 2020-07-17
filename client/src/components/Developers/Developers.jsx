@@ -20,15 +20,16 @@ const useStyles = makeStyles((theme) => ({
 const Developers = (props) => {
   useEffect(() => {
     props.getAllDevelopers();
-  }, []);
+  }, [props.developers]);
 
   const classes = useStyles();
+
   return (
     <Grid container spacing={2} xs={12} sm={8}>
       <Grid item xs={12}>
         <div className={classes.seachAddContainer}>
           <SearchBar />
-          <Link to="/addDev">
+          <Link to="/api/add">
             <AddButton />
           </Link>
         </div>
