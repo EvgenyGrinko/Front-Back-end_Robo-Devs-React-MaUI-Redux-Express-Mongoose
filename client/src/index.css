@@ -126,10 +126,14 @@ table {
 }
 
 a {
-  outline: none;
   text-decoration: none;
   color: inherit;
   text-transform: uppercase;
+  font-size: 14px;
+}
+
+html{
+  font-family: 'Roboto', sans-serif;
 }
 
 * {

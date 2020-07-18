@@ -19,44 +19,6 @@ export function setSearchedWord(payload) {
   return { type: SET_SEARCHED_WORD, payload };
 }
 
-// export const addDeveloper = ({ name, email, phone }) => {
-//   return (dispatch) => {
-//     dispatch(addDeveloperStarted());
-//     const url = "https://jsonplaceholder.typicode.com/users/";
-
-//     axios
-//       .post(url, {
-//         name,
-//         email,
-//         phone,
-//       })
-//       .then((res) => {
-//         setTimeout(() => {
-//           dispatch(addDevloperSuccess(res.data));
-//         }, 2500);
-//       })
-//       .catch((err) => {
-//         dispatch(addDevloperFailure(err.message));
-//         // throw new Error('NOT!');
-//       });
-//   };
-// };
-
-// const addDeveloperStarted = () => ({ type: ADD_DEVELOPER_STARTED });
-// const addDevloperSuccess = (dev) => ({
-//   type: ADD_DEVELOPER_SUCCESS,
-//   payload: {
-//     ...dev,
-//   },
-// });
-
-// const addDevloperFailure = (error) => ({
-//   type: ADD_DEVELOPER_FAILURE,
-//   payload: {
-//     error,
-//   },
-// });
-
 export function getAllDevelopers() {
   return async (dispatch) => {
     try {

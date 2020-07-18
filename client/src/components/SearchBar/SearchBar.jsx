@@ -1,48 +1,36 @@
-import React from "react";
+import React, {useState} from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import SearchIcon from "@material-ui/icons/Search";
 import InputBase from "@material-ui/core/InputBase";
 
 const useStyles = makeStyles((theme) => ({
   search: {
     width: "100%",
     backgroundColor: theme.palette.primary.light,
-    "&:hover": { backgroundColor: "#7457d5" },
-    margin: theme.spacing(2, 2, 2, 0),
+    margin: theme.spacing(2, 0, 2, 1),
     borderRadius: "0.5rem",
   },
-  searchIcon: {
-    padding: theme.spacing(0.5, 2),
-    position: "absolute",
-    pointerEvents: "none",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-  },
   inputInput: {
-    padding: theme.spacing(1, 1, 1, 1),
-    justifyContent: "flex-start",
-    width: "100%",
+    padding: theme.spacing(1, 2, 1, 2),
     color: theme.palette.primary.contrastText,
   },
 }));
 
-const SearchBar = () => {
+const SearchBar = (props) => {
   const classes = useStyles();
+  const [searchedWord, setSearchedWord] = useState("");
 
-  function handleChange(event) {}
+  function handleChange(event) {
+    setSearchedWord(event.target.value);
+    props.onSearch(searchedWord);
+  }
 
   return (
     <div className={classes.search}>
-      <div className={classes.searchIcon}>
-        <SearchIcon />
-      </div>
       <InputBase
         placeholder="Search…"
-        classes={{
-          root: classes.inputRoot,
-          input: classes.inputInput,
-        }}
+        fullWidth="true"
+        className={classes.inputInput}
+        value={searchedWord}
         onChange={handleChange}
         inputProps={{ "aria-label": "search" }}
       />

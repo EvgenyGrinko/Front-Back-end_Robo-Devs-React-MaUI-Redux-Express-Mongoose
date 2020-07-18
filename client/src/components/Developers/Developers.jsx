@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import DevCard from "../DevCard/DevCard";
 import { Grid } from "@material-ui/core";
 import { connect } from "react-redux";
-import { getAllDevelopers } from "../../redux/actions/index";
+import { getAllDevelopers, setSearchedWord } from "../../redux/actions/index";
 import SearchBar from "../SearchBar/SearchBar";
 import AddButton from "../AddButton/AddButton";
 import { makeStyles } from "@material-ui/core/styles";
@@ -20,7 +20,13 @@ const useStyles = makeStyles((theme) => ({
 const Developers = (props) => {
   useEffect(() => {
     props.getAllDevelopers();
-  }, [props.developers]);
+  }, []);
+
+  function onSearch(searchedWord){
+    setTimeout(()=>{
+      props.setSearchedWord(searchedWord);
+    }, 2000);
+  }
 
   const classes = useStyles();
 
@@ -28,13 +34,13 @@ const Developers = (props) => {
     <Grid container spacing={2} xs={12} sm={8}>
       <Grid item xs={12}>
         <div className={classes.seachAddContainer}>
-          <SearchBar />
+          <SearchBar onSearch={onSearch}/>
           <Link to="/api/add">
             <AddButton />
           </Link>
         </div>
       </Grid>
-      {props.developers.map((item) => {
+      {props.foundDevelopers.map((item) => {
         return (
           <Grid item xs={12} sm={6} md={4}>
             <DevCard info={item} component="form" />
@@ -45,9 +51,9 @@ const Developers = (props) => {
   );
 };
 
-const mapDispatchToProps = { getAllDevelopers };
+const mapDispatchToProps = { getAllDevelopers, setSearchedWord };
 function mapStateToProps(state) {
-  return { developers: state.developers };
+  return { foundDevelopers: state.foundDevelopers};
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Developers);

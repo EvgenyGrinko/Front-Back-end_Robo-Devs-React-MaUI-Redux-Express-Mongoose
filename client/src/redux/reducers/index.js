@@ -19,6 +19,7 @@ const initialState = {
   loading: false,
   error: null,
   developers: [],
+  foundDevelopers:[],
   oneDeveloper: {},
   isDeveloperDeleted: false,
 };
@@ -26,7 +27,7 @@ const initialState = {
 function rootReducer(state = initialState, { type, payload }) {
   switch (type) {
     case SET_SEARCHED_WORD:
-      return { ...state, searchedWord: payload };
+      return { ...state, searchedWord: payload, foundDevelopers: getFoundDevelopers(state.developers, payload) };
     case ADD_DEVELOPER_STARTED:
       return { ...state, loading: true };
     case ADD_DEVELOPER_SUCCESS:
@@ -41,7 +42,7 @@ function rootReducer(state = initialState, { type, payload }) {
     case GET_ALL_DEVELOPERS_STARTED:
       return { ...state, loading: true };
     case GET_ALL_DEVELOPERS_SUCCESS:
-      return { ...state, loading: false, error: null, developers: payload };
+      return { ...state, loading: false, error: null, developers: payload, foundDevelopers: getFoundDevelopers(payload, state.searchedWord)};
     case GET_ALL_DEVELOPERS_FAILURE:
       return { ...state, loading: false, error: payload.error };
     case GET_ONE_DEVELOPER_STARTED:
@@ -65,6 +66,16 @@ function rootReducer(state = initialState, { type, payload }) {
     default:
       return state;
   }
+}
+
+function getFoundDevelopers(developers, searchedWord){
+  const foundDevelopers = developers.filter((item)=>{
+    return (item.name.includes(searchedWord) || 
+            item.email.includes(searchedWord) || 
+            item.username.includes(searchedWord) || 
+            item.phone.includes(searchedWord))
+  })
+  return foundDevelopers;
 }
 
 export default rootReducer;
