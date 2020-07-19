@@ -25,6 +25,8 @@ function InputField(props) {
         name={props.name}
         onChange={handleChange}
         value={props.value}
+        required={props.isRequired}
+        type={props.type}
       />
     </div>
   );

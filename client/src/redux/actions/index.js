@@ -96,9 +96,9 @@ export function deleteOneDeveloper(id) {
       // const url = "https://jsonplaceholder.typicode.com/users/";
       const url = "/api/developers/";
       const {
-        data: { success },
+        data: { developers },
       } = await axios.delete(url + id);
-      dispatch(deleteOneDevloperSuccess(success));
+      dispatch(deleteOneDevloperSuccess(developers));
     } catch (err) {
       dispatch(deleteOneDevloperFailure(err.message));
     }
@@ -108,10 +108,10 @@ export function deleteOneDeveloper(id) {
 function deleteOneDeveloperStarted() {
   return { type: DELETE_ONE_DEVELOPER_STARTED };
 }
-function deleteOneDevloperSuccess(success) {
+function deleteOneDevloperSuccess(developers) {
   return {
     type: DELETE_ONE_DEVELOPER_SUCCESS,
-    payload: success,
+    payload: developers,
   };
 }
 function deleteOneDevloperFailure(error) {

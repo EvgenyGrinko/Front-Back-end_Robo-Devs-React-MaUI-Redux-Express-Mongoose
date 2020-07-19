@@ -93,9 +93,10 @@ exports.deleteDeveloper = async (req, res, next) => {
       });
     }
     await developer.remove();
+    const developers = await Developer.find();
     return res.status(200).json({
       success: true,
-      data: {},
+      developers: developers,
     });
   } catch (err) {
     return res.status(500).json({

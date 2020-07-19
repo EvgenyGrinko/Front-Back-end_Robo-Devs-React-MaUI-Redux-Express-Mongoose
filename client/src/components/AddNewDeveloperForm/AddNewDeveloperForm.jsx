@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Grid, Button, Paper } from "@material-ui/core";
+import { Grid, Button, Paper, Avatar } from "@material-ui/core";
 import InputField from "../AddNewDeveloperForm/InputField/InputField";
 import { addDeveloper } from "../../redux/actions/index";
 import { connect } from "react-redux";
@@ -16,11 +16,15 @@ const useStyles = makeStyles((theme) => ({
   },
   submitButton: {
     alignSelf: "center",
+    margin: theme.spacing(2, 0, 0, 0),
     width: "50%",
   },
   container: {
     margin: theme.spacing(4, 0, 0, 0),
   },
+  inputAddImg:{
+    display: "none",
+  }
 }));
 
 function AddNewDeveloperForm(props) {
@@ -31,6 +35,7 @@ function AddNewDeveloperForm(props) {
     email: "",
     username: "",
     phone: "",
+    imgSrc: ""
   });
 
   function handleSubmit(event) {
@@ -39,17 +44,21 @@ function AddNewDeveloperForm(props) {
     if (
       Object.values(developer).every((item) => {
         return item !== "";
-      })
-    ) {
-      props.addDeveloper(developer);
-    }
-    setDeveloper({
-      name: "",
-      email: "",
-      username: "",
-      phone: "",
-    });
-    setsuccessDialogVisibility(true);
+      })){
+        props.addDeveloper(developer);
+    
+        setDeveloper({
+          name: "",
+          email: "",
+          username: "",
+          phone: "",
+          imgSrc: "",
+
+        });
+        setsuccessDialogVisibility(true);
+    
+      }
+    
   }
 
   function handleSuccessDialogClose() {
@@ -64,6 +73,21 @@ function AddNewDeveloperForm(props) {
     });
   }
 
+  function previewFile() {
+    const preview = document.getElementById('avatarImg');
+    const file = document.getElementById('inputForImg').files[0];
+    const reader = new FileReader();
+    preview.src = reader.result;
+    // reader.addEventListener("load", function () {
+    //   // convert image file to base64 string
+    //   preview.src = reader.result;
+    // }, false);
+  
+    if (file) {
+      reader.readAsDataURL(file);
+    }
+  }
+
   return (
     <Grid container>
       <Grid item xs={false} sm={2} />
@@ -74,22 +98,40 @@ function AddNewDeveloperForm(props) {
               name="name"
               onChange={handleDeveloperInfo}
               value={developer.name}
+              isRequired={true}
             />
             <InputField
               name="username"
               onChange={handleDeveloperInfo}
               value={developer.username}
+              isRequired={true}
             />
             <InputField
               name="email"
               onChange={handleDeveloperInfo}
               value={developer.email}
+              isRequired={true}
             />
             <InputField
               name="phone"
               onChange={handleDeveloperInfo}
               value={developer.phone}
+              isRequired={true}
             />
+             <input
+              accept="image/*"
+              className={classes.inputAddImg}
+              id="inputForImg"
+              type="file"
+              onChange= {previewFile}
+              />
+            <img src="" height="200" alt="Image preview..." id="avatarImg"/>
+            {/* <Avatar alt="Preview of your avatar" variant="circle" id="avatarImg"/> */}
+            <label htmlFor="inputForImg">
+              <Button variant="contained" color="primary" component="span">
+                Upload you image
+              </Button>
+            </label>
             <Button
               type="submit"
               variant="contained"

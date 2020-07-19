@@ -58,7 +58,8 @@ function rootReducer(state = initialState, { type, payload }) {
         ...state,
         loading: false,
         error: null,
-        isDeveloperDeleted: payload,
+        developers: payload,
+        foundDevelopers: getFoundDevelopers(payload, state.searchedWord)
       };
     case DELETE_ONE_DEVELOPER_FAILURE:
       return { ...state, loading: false, error: payload };
@@ -70,10 +71,10 @@ function rootReducer(state = initialState, { type, payload }) {
 
 function getFoundDevelopers(developers, searchedWord){
   const foundDevelopers = developers.filter((item)=>{
-    return (item.name.includes(searchedWord) || 
-            item.email.includes(searchedWord) || 
-            item.username.includes(searchedWord) || 
-            item.phone.includes(searchedWord))
+    return (item.name.toLowerCase().includes(searchedWord.toLowerCase()) || 
+            item.email.toLowerCase().includes(searchedWord.toLowerCase()) || 
+            item.username.toLowerCase().includes(searchedWord.toLowerCase()) || 
+            item.phone.toLowerCase().includes(searchedWord.toLowerCase()))
   })
   return foundDevelopers;
 }
