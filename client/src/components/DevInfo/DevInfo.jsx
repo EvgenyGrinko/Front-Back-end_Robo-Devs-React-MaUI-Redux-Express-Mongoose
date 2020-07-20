@@ -57,14 +57,13 @@ const useStyles = makeStyles((theme) => ({
 const DevInfo = (props) => {
   const id = props.match.params.id;
   const {
-    oneDeveloper: { developer, success },
+    currentDeveloper: { developer, success },
   } = props;
 
   useEffect(() => {
     props.getOneDeveloper(id);
   }, []);
 
-  function handleEditClick() {}
   const classes = useStyles();
   return (
     <div>
@@ -76,7 +75,7 @@ const DevInfo = (props) => {
               to={`/api/edit/${developer._id}`}
               className={classes.editButton}
             >
-              <IconButton onClick={handleEditClick}>
+              <IconButton>
                 <EditIcon />
               </IconButton>
             </Link>
@@ -111,7 +110,7 @@ const DevInfo = (props) => {
 
 const mapDispatchToProps = { getOneDeveloper };
 function mapStateToProps(state) {
-  return { oneDeveloper: state.oneDeveloper };
+  return { currentDeveloper: state.currentDeveloper };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(DevInfo);

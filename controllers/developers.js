@@ -114,3 +114,28 @@ exports.deleteDeveloper = async (req, res, next) => {
     });
   }
 };
+
+// @desc    Edit developer
+// @route   PATCH /api/developers/:id
+// @access  Public
+exports.editDeveloper = async (req, res, next) => {
+  try {
+    const developer = await Developer.findById(req.params.id); //req.params.id to get access to ":id"
+    if (!developer) {
+      return res.status(404).json({
+        success: false,
+        error: "No developer found",
+      });
+    }
+    const updatedDeveloper = await Developer.updateOne({ _id: req.params.id }, req.body);
+    return res.status(200).json({
+      success: true,
+      developer: updatedDeveloper,
+    });
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      error: "Server Error",
+    });
+  }
+};

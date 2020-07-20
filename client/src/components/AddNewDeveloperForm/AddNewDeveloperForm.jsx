@@ -35,7 +35,7 @@ function AddNewDeveloperForm(props) {
     email: "",
     username: "",
     phone: "",
-    imgSrc: ""
+    avatar: ""
   });
 
   function handleSubmit(event) {
@@ -52,8 +52,7 @@ function AddNewDeveloperForm(props) {
           email: "",
           username: "",
           phone: "",
-          imgSrc: "",
-
+          avatar: "",
         });
         setsuccessDialogVisibility(true);
     

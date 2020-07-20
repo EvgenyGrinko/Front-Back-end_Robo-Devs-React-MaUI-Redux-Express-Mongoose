@@ -12,6 +12,9 @@ import {
   DELETE_ONE_DEVELOPER_STARTED,
   DELETE_ONE_DEVELOPER_SUCCESS,
   DELETE_ONE_DEVELOPER_FAILURE,
+  EDIT_DEVELOPER_STARTED,
+  EDIT_DEVELOPER_SUCCESS,
+  EDIT_DEVELOPER_FAILURE,
 } from "../constants/acion-types";
 import axios from "axios";
 
@@ -79,10 +82,10 @@ export function getOneDeveloper(id) {
 function getOneDeveloperStarted() {
   return { type: GET_ONE_DEVELOPER_STARTED };
 }
-function getOneDevloperSuccess(developers) {
+function getOneDevloperSuccess(developer) {
   return {
     type: GET_ONE_DEVELOPER_SUCCESS,
-    payload: developers,
+    payload: developer,
   };
 }
 function getOneDevloperFailure(error) {
@@ -143,4 +146,32 @@ function addDeveloperSuccess(developer) {
 }
 function addDeveloperFailure(error) {
   return { type: ADD_DEVELOPER_FAILURE, payload: error };
+}
+
+
+export function editDeveloper(developer, id) {
+  return async (dispatch) => {
+    try {
+      dispatch(editDeveloperStarted());
+      const url = "/api/developers/";
+      const { data } = await axios.patch(url + id, developer);
+      console.log(developer)
+      dispatch(editDeveloperSuccess(data.developer));
+    } catch (err) {
+      dispatch(editDeveloperFailure(err.message));
+    }
+  };
+}
+
+function editDeveloperStarted() {
+  return { type: EDIT_DEVELOPER_STARTED };
+}
+function editDeveloperSuccess(developer) {
+  return {
+    type: EDIT_DEVELOPER_SUCCESS,
+    payload: developer,
+  };
+}
+function editDeveloperFailure(error) {
+  return { type: EDIT_DEVELOPER_FAILURE, payload: error };
 }
