@@ -1,5 +1,7 @@
 const Developer = require("../models/Developer");
 const axios = require("axios");
+const Joi = require("@hapi/joi");
+const ValidationError = require("../validation/ValidationError");
 
 // @desc    Get all developers
 // @route   GET /api/developers
@@ -65,6 +67,10 @@ exports.getDeveloper = async (req, res, next) => {
 // @access  Public
 exports.addDeveloper = async (req, res, next) => {
   try {
+    const { error } = ValidationError(req.body);
+    if (error) {
+      return res.status(403).json({success: false, error: error.details[0].message });
+    }
     const developer = await Developer.create(req.body);
     return res.status(201).json({
       success: true,
@@ -127,7 +133,10 @@ exports.editDeveloper = async (req, res, next) => {
         error: "No developer found",
       });
     }
-    const updatedDeveloper = await Developer.updateOne({ _id: req.params.id }, req.body);
+    const updatedDeveloper = await Developer.updateOne(
+      { _id: req.params.id },
+      req.body
+    );
     return res.status(200).json({
       success: true,
       developer: updatedDeveloper,

@@ -35,7 +35,7 @@ function AddNewDeveloperForm(props) {
     email: "",
     username: "",
     phone: "",
-    avatar: ""
+    // avatar: ""
   });
 
   function handleSubmit(event) {
@@ -46,14 +46,13 @@ function AddNewDeveloperForm(props) {
         return item !== "";
       })){
         props.addDeveloper(developer);
-    
-        setDeveloper({
-          name: "",
-          email: "",
-          username: "",
-          phone: "",
-          avatar: "",
-        });
+        // setDeveloper({
+        //   name: "",
+        //   email: "",
+        //   username: "",
+        //   phone: "",
+        //   // avatar: "",
+        // });
         setsuccessDialogVisibility(true);
     
       }
@@ -118,7 +117,7 @@ function AddNewDeveloperForm(props) {
               value={developer.phone}
               isRequired={true}
             />
-             <input
+             {/* <input
               accept="image/*"
               className={classes.inputAddImg}
               id="inputForImg"
@@ -127,11 +126,11 @@ function AddNewDeveloperForm(props) {
               />
             {/* <img src="" height="200" alt="Image preview..." id="avatarImg"/> */}
             {/* <Avatar alt="Preview of your avatar" variant="circle" id="avatarImg"/> */}
-            <label htmlFor="inputForImg">
+            {/* <label htmlFor="inputForImg">
               <Button variant="contained" color="primary" component="span">
                 Upload you image
               </Button>
-            </label>
+            </label> */} 
             <Button
               type="submit"
               variant="contained"
@@ -145,7 +144,7 @@ function AddNewDeveloperForm(props) {
       </Grid>
       <Grid item xs={false} sm={2} />
       <DialogSuccess
-        title="New developer added nicely"
+        title={props.error ? `${props.error}` : "New developer added nicely"}
         open={successDialogOpened}
         onClose={handleSuccessDialogClose}
       />
@@ -154,5 +153,7 @@ function AddNewDeveloperForm(props) {
 }
 
 const addDispatchToProps = { addDeveloper };
-
-export default connect(null, addDispatchToProps)(AddNewDeveloperForm);
+function mapStateToProps(state){
+  return {error: state.error}
+}
+export default connect(mapStateToProps, addDispatchToProps)(AddNewDeveloperForm);
