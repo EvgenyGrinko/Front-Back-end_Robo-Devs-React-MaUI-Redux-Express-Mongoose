@@ -69,7 +69,7 @@ function DevCard(props) {
         <Link to={`api/developers/${info._id}`}>
           <CardMedia
             className={classes.media}
-            image={"https://robohash.org/" + info._id}
+            image={info.avatar}
             title="Dev Name"
           />
         </Link>

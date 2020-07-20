@@ -6,7 +6,10 @@ import {
   Typography,
   CircularProgress,
   Container,
+  IconButton,
 } from "@material-ui/core";
+import EditIcon from "@material-ui/icons/Edit";
+import { Link } from "react-router-dom";
 import { getOneDeveloper } from "../../redux/actions/index";
 import { connect } from "react-redux";
 
@@ -21,16 +24,33 @@ const useStyles = makeStyles((theme) => ({
   avatar: {
     width: theme.spacing(30),
     height: theme.spacing(30),
+    alignSelf: "center",
+    padding: theme.spacing(0, 5, 0, 0),
   },
   paper: {
     display: "flex",
-    width: theme.spacing(30),
-    height: theme.spacing(30),
-    padding: theme.spacing(1),
+    flexDirection: "column",
+    width: theme.spacing(50),
+    height: theme.spacing(50),
+    padding: theme.spacing(2, 2, 2, 5),
   },
   content: {
     display: "flex",
-    width: "100%",
+    padding: theme.spacing(10, 0, 0, 0),
+  },
+  textContainer: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-start",
+  },
+  text: {
+    padding: theme.spacing(0, 0, 3, 0),
+  },
+  textHeader: {
+    fontWeight: 800,
+  },
+  editButton: {
+    alignSelf: "flex-end",
   },
 }));
 
@@ -43,25 +63,40 @@ const DevInfo = (props) => {
   useEffect(() => {
     props.getOneDeveloper(id);
   }, []);
+
+  function handleEditClick() {}
   const classes = useStyles();
-  console.log(props);
   return (
     <div>
       {success ? (
         <div className={classes.content}>
-          <Avatar
-            className={classes.avatar}
-            src={"https://robohash.org/" + id}
-          />
+          <Avatar className={classes.avatar} src={developer.avatar} />
           <Paper elevation={3} className={classes.paper}>
-            <Container>
-              <Typography component="div">
-                email: {props.oneDeveloper.email}
+            <Link
+              to={`/api/edit/${developer._id}`}
+              className={classes.editButton}
+            >
+              <IconButton onClick={handleEditClick}>
+                <EditIcon />
+              </IconButton>
+            </Link>
+            <Container className={classes.textContainer}>
+              <Typography className={classes.text}>
+                <span className={classes.textHeader}>email: </span>
+                {developer.email}
               </Typography>
-              <Typography>name: {developer.name}</Typography>
-              <Typography>phone: {developer.phone}</Typography>
-              <Typography>username: {developer.username}</Typography>
-              <Typography>website: {developer.website}</Typography>
+              <Typography className={classes.text}>
+                <span className={classes.textHeader}>name: </span>
+                {developer.name}
+              </Typography>
+              <Typography className={classes.text}>
+                <span className={classes.textHeader}>phone: </span>
+                {developer.phone}
+              </Typography>
+              <Typography className={classes.text}>
+                <span className={classes.textHeader}>username: </span>
+                {developer.username}
+              </Typography>
             </Container>
           </Paper>
         </div>

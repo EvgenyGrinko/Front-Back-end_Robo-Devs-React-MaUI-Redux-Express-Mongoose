@@ -76,16 +76,17 @@ function AddNewDeveloperForm(props) {
   function previewFile() {
     const preview = document.getElementById('avatarImg');
     const file = document.getElementById('inputForImg').files[0];
-    const reader = new FileReader();
-    preview.src = reader.result;
+    console.log(file)
+    // const reader = new FileReader();
+    // preview.src = reader.result;
     // reader.addEventListener("load", function () {
     //   // convert image file to base64 string
     //   preview.src = reader.result;
     // }, false);
   
-    if (file) {
-      reader.readAsDataURL(file);
-    }
+    // if (file) {
+    //   reader.readAsDataURL(file);
+    // }
   }
 
   return (
@@ -125,7 +126,7 @@ function AddNewDeveloperForm(props) {
               type="file"
               onChange= {previewFile}
               />
-            <img src="" height="200" alt="Image preview..." id="avatarImg"/>
+            {/* <img src="" height="200" alt="Image preview..." id="avatarImg"/> */}
             {/* <Avatar alt="Preview of your avatar" variant="circle" id="avatarImg"/> */}
             <label htmlFor="inputForImg">
               <Button variant="contained" color="primary" component="span">

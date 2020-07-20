@@ -19,7 +19,7 @@ const DeveloperSchema = mongoose.Schema({
   },
   avatar: {
     type: String,
-    // required: [true, "Please, add an avatar image"],
+    required: [true, "Please, add an avatar image"],
   },
   createdAt: {
     type: Date,

@@ -24,6 +24,7 @@ function App() {
             </Route>
             <Route path="/projects" component={Projects} />
             <Route exact path="/api/developers/:id" component={DevInfo} />
+            <Route exact path="/api/edit/:id" component={DevInfo} />
             <Route exact path="/api/add" component={AddNewDeveloperForm} />
           </Switch>
 

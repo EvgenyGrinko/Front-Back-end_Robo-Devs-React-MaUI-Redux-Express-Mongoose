@@ -130,6 +130,7 @@ a {
   color: inherit;
   text-transform: uppercase;
   font-size: 14px;
+  width: auto;
 }
 
 html{

@@ -6,12 +6,20 @@ const axios = require("axios");
 // @access  Public
 exports.getDevelopers = async (req, res, next) => {
   try {
-    const isDBEmpty = Boolean(await Developer.find().length);
-    if (isDBEmpty) {
+    const isNotDBEmpty = await Developer.count({}, (err) => {});
+    const devs = [];
+    if (!isNotDBEmpty) {
       const url = "https://jsonplaceholder.typicode.com/users";
       const { data } = await axios.get(url);
-      data.forEach(async (item) => {
-        await Developer.create(item);
+      data.forEach((item, index) => {
+        const devWithAvatar = {
+          ...item,
+          avatar: "https://robohash.org/" + index,
+        };
+        devs.push(devWithAvatar);
+      });
+      await Developer.insertMany(devs, (err) => {
+        console.log(err);
       });
     }
     const developers = await Developer.find();
@@ -93,6 +101,7 @@ exports.deleteDeveloper = async (req, res, next) => {
       });
     }
     await developer.remove();
+    // await Developer.deleteMany({}, (err)=>{});
     const developers = await Developer.find();
     return res.status(200).json({
       success: true,
