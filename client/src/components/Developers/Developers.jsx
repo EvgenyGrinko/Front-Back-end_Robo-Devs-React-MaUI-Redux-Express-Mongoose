@@ -22,10 +22,10 @@ const Developers = (props) => {
     props.getAllDevelopers();
   }, []);
 
-  function onSearch(searchedWord){
-    setTimeout(()=>{
+  function onSearch(searchedWord) {
+    setTimeout(() => {
       props.setSearchedWord(searchedWord);
-    }, 2000);
+    }, 1000);
   }
 
   const classes = useStyles();
@@ -34,7 +34,7 @@ const Developers = (props) => {
     <Grid container spacing={2} xs={12} sm={8}>
       <Grid item xs={12}>
         <div className={classes.seachAddContainer}>
-          <SearchBar onSearch={onSearch}/>
+          <SearchBar onSearch={onSearch} />
           <Link to="/api/add">
             <AddButton />
           </Link>
@@ -53,7 +53,7 @@ const Developers = (props) => {
 
 const mapDispatchToProps = { getAllDevelopers, setSearchedWord };
 function mapStateToProps(state) {
-  return { foundDevelopers: state.foundDevelopers};
+  return { foundDevelopers: state.foundDevelopers };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Developers);

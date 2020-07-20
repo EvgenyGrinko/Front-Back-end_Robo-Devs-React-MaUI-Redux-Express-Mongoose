@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import InputBase from "@material-ui/core/InputBase";
 
@@ -19,11 +19,6 @@ const SearchBar = (props) => {
   const classes = useStyles();
   const [searchedWord, setSearchedWord] = useState("");
 
-  function handleChange(event) {
-    setSearchedWord(event.target.value);
-    props.onSearch(searchedWord);
-  }
-
   return (
     <div className={classes.search}>
       <InputBase
@@ -31,7 +26,10 @@ const SearchBar = (props) => {
         fullWidth="true"
         className={classes.inputInput}
         value={searchedWord}
-        onChange={handleChange}
+        onChange={(event) => {
+          setSearchedWord(event.target.value);
+          props.onSearch(event.target.value);
+        }}
         inputProps={{ "aria-label": "search" }}
       />
     </div>
