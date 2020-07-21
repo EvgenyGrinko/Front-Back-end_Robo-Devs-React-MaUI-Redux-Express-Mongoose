@@ -8,30 +8,34 @@ import EditDeveloper from "../components/EditDeveloper/EditDeveloper";
 import Projects from "../components/Projects/Projects";
 import AddNewDeveloperForm from "../components/AddNewDeveloperForm/AddNewDeveloperForm";
 import { Switch, Route } from "react-router-dom";
+import WelcomePage from "../components/WelcomePage/WelcomePage";
 
 function App() {
   return (
     <div className="App">
-      <Grid container direction="column">
-        <Grid item xs={12}>
-          <NavBar />
-        </Grid>
-        <Grid item container>
-          <Grid item xs={0} sm={2} />
+      <Switch>
+        <Route exact path="/">
+          <WelcomePage />
+        </Route>
+        <Grid container direction="column">
+          <Grid item xs={12}>
+            <NavBar />
+          </Grid>
+          <Grid item container>
+            <Grid item xs={0} sm={2} />
 
-          <Switch>
-            <Route exact path="/">
+            <Route exact path="/api/developers">
               <Developers />
             </Route>
             <Route path="/projects" component={Projects} />
             <Route exact path="/api/developers/:id" component={DevInfo} />
             <Route exact path="/api/edit/:id" component={EditDeveloper} />
             <Route exact path="/api/add" component={AddNewDeveloperForm} />
-          </Switch>
 
-          <Grid item xs={0} sm={2} />
+            <Grid item xs={0} sm={2} />
+          </Grid>
         </Grid>
-      </Grid>
+      </Switch>
     </div>
   );
 }
