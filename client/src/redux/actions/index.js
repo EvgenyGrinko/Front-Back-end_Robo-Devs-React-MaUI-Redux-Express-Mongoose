@@ -148,15 +148,14 @@ function addDeveloperFailure(error) {
   return { type: ADD_DEVELOPER_FAILURE, payload: error };
 }
 
-
 export function editDeveloper(developer, id) {
   return async (dispatch) => {
     try {
       dispatch(editDeveloperStarted());
       const url = "/api/developers/";
       const { data } = await axios.patch(url + id, developer);
-      console.log(developer)
       dispatch(editDeveloperSuccess(data.developer));
+      console.log(data)
     } catch (err) {
       dispatch(editDeveloperFailure(err.message));
     }

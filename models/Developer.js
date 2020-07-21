@@ -17,10 +17,10 @@ const DeveloperSchema = mongoose.Schema({
     type: String,
     required: [true, "Please, add a phone"],
   },
-  avatar: {
-    type: String,
-    required: [true, "Please, add an avatar image"],
-  },
+  // avatar: {
+  //   type: String,
+  //   // required: [true, "Please, add an avatar image"],
+  // },
   createdAt: {
     type: Date,
     default: Date.now,

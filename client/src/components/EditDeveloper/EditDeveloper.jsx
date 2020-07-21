@@ -3,6 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Avatar, TextField, Button, CircularProgress } from "@material-ui/core";
 import { connect } from "react-redux";
 import { getOneDeveloper, editDeveloper } from "../../redux/actions/index";
+import DialogSuccess from "../DialogSuccess/DialogSuccess";
 
 const useStyles = makeStyles((theme) => ({
   spinnerContainer: {
@@ -15,7 +16,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function EditDeveloper(props) {
-
   const id = props.match.params.id;
 
   useEffect(() => {
@@ -31,23 +31,32 @@ function EditDeveloper(props) {
     email: "",
     username: "",
     phone: "",
-    avatar: "",
+    // avatar: "",
   });
+
+  const [successDialogOpened, setsuccessDialogVisibility] = useState(false);
+
+  function handleSuccessDialogClose() {
+    setsuccessDialogVisibility(false);
+  }
 
   function handleChange(event) {
     const name = event.target.name;
     const value = event.target.value;
     setEdittedDeveloper((prevValues) => {
-      return Object.fromEntries(Object.entries(prevValues).map(([key, prevValue])=>{
-        if (key === name) return [key, value]
-        if (!prevValue) return [key, developer[key]]
-        else return [key, prevValue]
-      }))
-    })
+      return Object.fromEntries(
+        Object.entries(prevValues).map(([key, prevValue]) => {
+          if (key === name) return [key, value];
+          if (!prevValue) return [key, developer[key]];
+          else return [key, prevValue];
+        })
+      );
+    });
   }
   function handleSubmit(event) {
     event.preventDefault();
     props.editDeveloper(edittedDeveloper, id);
+    setsuccessDialogVisibility(true);
   }
   const classes = useStyles();
   return (
@@ -79,26 +88,29 @@ function EditDeveloper(props) {
             defaultValue={developer.email}
             onChange={handleChange}
           />
-          <TextField
+          {/* <TextField
             label="Avatar image"
             name="avatar"
             defaultValue={developer.avatar}
-          />
-          <Button type="submit">
-            Submit changes
-          </Button>
+          /> */}
+          <Button type="submit">Submit changes</Button>
         </form>
       ) : (
         <div className={classes.spinnerContainer}>
           <CircularProgress />
         </div>
       )}
+      <DialogSuccess
+        title={props.error ? `${props.error}` : "Developer eddited nicely"}
+        open={successDialogOpened}
+        onClose={handleSuccessDialogClose}
+      />
     </div>
   );
 }
 
 function mapStateToProps(state) {
-  return { currentDeveloper: state.currentDeveloper };
+  return { currentDeveloper: state.currentDeveloper, error: state.error };
 }
 
 const mapDispatchToProps = { getOneDeveloper, editDeveloper };

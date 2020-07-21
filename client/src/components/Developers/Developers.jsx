@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import DevCard from "../DevCard/DevCard";
-import { Grid } from "@material-ui/core";
+import { Grid, CircularProgress } from "@material-ui/core";
 import { connect } from "react-redux";
 import { getAllDevelopers, setSearchedWord } from "../../redux/actions/index";
 import SearchBar from "../SearchBar/SearchBar";
@@ -14,6 +14,13 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     padding: theme.spacing(1, 0, 1, 0),
     alignItems: "center",
+  },
+  spinnerContainer: {
+    height: `calc(100vh - ${theme.spacing(8)}px)`,
+    width: "100vw",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
   },
 }));
 
@@ -40,20 +47,26 @@ const Developers = (props) => {
           </Link>
         </div>
       </Grid>
-      {props.foundDevelopers.map((item) => {
-        return (
-          <Grid item xs={12} sm={6} md={4}>
-            <DevCard info={item} component="form" />
-          </Grid>
-        );
-      })}
+      {props.loading ? (
+        <div className={classes.spinnerContainer}>
+          <CircularProgress />
+        </div>
+      ) : (
+        props.foundDevelopers.map((item) => {
+          return (
+            <Grid item xs={12} sm={6} md={4}>
+              <DevCard info={item} component="form" />
+            </Grid>
+          );
+        })
+      )}
     </Grid>
   );
 };
 
 const mapDispatchToProps = { getAllDevelopers, setSearchedWord };
 function mapStateToProps(state) {
-  return { foundDevelopers: state.foundDevelopers };
+  return { foundDevelopers: state.foundDevelopers, loading: state.loading };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Developers);
